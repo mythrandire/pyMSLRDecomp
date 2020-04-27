@@ -21,7 +21,7 @@ ms = block_sizes
 ns = ms
 block_sizes = [(x, x) for x in block_sizes]
 
-print("Block sizes: ", block_sizes)
+# print("Block sizes: ", block_sizes)
 
 levels = len(block_sizes)
 
@@ -56,6 +56,8 @@ for it in range(nIter):
 
     X_it = 1 / levels * AT(X - A(Z_it - U_it)) + Z_it - U_it
     for l in range(levels):
+        print("Size of input Z: ", (X_it[:,:,0] + U_it[:,:,0]).shape)
+
         Z_it[:,:,0] = blockSVT(X_it[:,:,0] + U_it[:,:,0], block_sizes[l], lambdas[l] / rho)
 
     U_it = U_it - Z_it + X_it
