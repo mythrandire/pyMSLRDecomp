@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.feature_extraction import image as I
 from skimage.util.shape import view_as_blocks
-import SVT
-import SoftThresh
+from SVT import SVT
+from SoftThresh import SoftThresh
 
 def blockSVT(Z, block_size, lambd):
     """
@@ -21,7 +21,10 @@ def blockSVT(Z, block_size, lambd):
         Z = np.multiply(SoftThresh(t, lambd), Z) / (t + eps)
     else:
         # data = I.extract_patches_2d(Z, block_size, Z.shape[0]/block_size[0])
+        print("block size into blockSVT: ", block_size)
         data = view_as_blocks(Z, block_size)
+        print("block data shape: ", data.shape)
+        print(data)
         Z = doBlockSVT(data).reshape(Z.shape)
 
     return Z

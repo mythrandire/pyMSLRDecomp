@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.linalg import svd
+from SoftThresh import SoftThresh
 
 def SVT(Z, lambd):
     """
@@ -16,11 +17,10 @@ def SVT(Z, lambd):
     else:
         ZZ = np.multiply(Z, Z.T)
 
-    if max(np.sum(abs(Z), 1)) < lambd/2:
+    if np.max(np.sum(abs(ZZ), 1)) < lambd/2:
         Z = np.multiply(Z, 0)
     else:
-        U, S, V, _ = svd(Z) # verify if this works
-        Z = np.multiply(np.multiply(U, np.diag(SoftThresh(np.diag(S), lambd))),
-                        V.T)
+        U, S, V = svd(Z) # verify if this works
+        Z = U * SoftThresh(S, lambd) * V.T
 
     return Z
