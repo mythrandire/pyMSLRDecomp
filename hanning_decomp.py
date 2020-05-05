@@ -10,7 +10,7 @@ FOV = (N, N)
 
 sigma = 0
 
-nIter = 50
+nIter = 20
 
 rho = 10 # ADMM param
 
@@ -31,6 +31,8 @@ lambdas = np.sqrt(ms) + np.sqrt(ns) + np.sqrt(np.log2(np.multiply(bs, np.minimum
 
 
 X = cv2.imread('./hanning.png', cv2.IMREAD_GRAYSCALE)
+X = cv2.resize(X, (64, 64))
+# X = np.ones((64, 64))
 """
 plt.imshow(X)
 plt.show()
@@ -49,6 +51,7 @@ X_it = np.zeros(FOVl)
 Z_it = np.zeros(FOVl)
 U_it = np.zeros(FOVl)
 
+plt.figure()
 for it in range(nIter):
     #print(X_it.shape)
     new =  X - A(Z_it - U_it)
@@ -61,3 +64,9 @@ for it in range(nIter):
         Z_it[:,:,0] = blockSVT(X_it[:,:,0] + U_it[:,:,0], block_sizes[l], lambdas[l] / rho)
 
     U_it = U_it - Z_it + X_it
+
+plt.imshow(np.abs(X_it[:,:,0]))
+plt.figure(), plt.imshow(np.abs(X_it[:,:,1]))
+plt.figure(), plt.imshow(np.abs(X_it[:,:,2]))
+plt.figure(), plt.imshow(np.abs(X_it[:,:,3]))
+plt.show()

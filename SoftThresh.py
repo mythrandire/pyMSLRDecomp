@@ -11,7 +11,7 @@ def SoftThresh(y, t):
         x   :   signum(y)(|y| - t)_{+}
     """
     res = np.abs(y) - t
-    res = res + np.abs(res)/2
+    res = (res + np.abs(res))/2
     x = np.multiply(np.sign(y), res)
 
     return x

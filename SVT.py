@@ -13,12 +13,12 @@ def SVT(Z, lambd):
     """
 
     if (Z.shape[0] > Z.shape[1]):
-        ZZ = np.multiply(Z.T, Z)
+        ZZ = np.dot(Z.T, Z)
     else:
-        ZZ = np.multiply(Z, Z.T)
+        ZZ = np.dot(Z, Z.T)
 
     if np.max(np.sum(abs(ZZ), 1)) < lambd/2:
-        Z = np.multiply(Z, 0)
+        Z = np.dot(Z, 0)
     else:
         U, S, V = svd(Z) # verify if this works
         Z = U * SoftThresh(S, lambd) * V.T
