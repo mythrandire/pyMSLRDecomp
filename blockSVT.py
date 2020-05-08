@@ -57,18 +57,14 @@ def blockSVT(Z, block_size, lambd):
     Returns:
         Z           :       Block-wise thresholded
     """
-
-    eps = np.finfo(float).eps # machine epsilon
+    #print("block size: ", block_size)
+    eps = np.finfo(np.float64).eps # machine epsilon
     doBlockSVT = lambda X: SVT(X, lambd)
     if block_size[0] == Z.size:
         t = np.norm(Z.flatten(), 2)
         Z = np.dot(SoftThresh(t, lambd), Z) / (t + eps)
     else:
-        # consider list comprehension after manual block creation to simulate
-        # blockproc?
-        # output_list = [function(x) for x in input_list]
-        #
-        # data = I.extract_patches_2d(Z, block_size, int(Z.shape[0]/block_size[0]))
+
         Z_shape = Z.shape
         data = makeblocks(Z, block_size)
         #print("block data shape: ", len(data))

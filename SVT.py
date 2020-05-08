@@ -10,6 +10,9 @@ def SVT(Z, lambd):
         lambd   :   threshold
     Returns:
         Z       : Z, singular value-thresholded
+
+    Notes: np.linalg.svd returns USV.T, so no need to transpose when
+    recombining.
     """
 
     if (Z.shape[0] > Z.shape[1]):
@@ -17,10 +20,10 @@ def SVT(Z, lambd):
     else:
         ZZ = np.dot(Z, Z.T)
 
-    if np.max(np.sum(abs(ZZ), 1)) < lambd/2:
+    if np.max(np.sum(abs(ZZ), 1)) < lambd**2:
         Z = np.dot(Z, 0)
     else:
         U, S, V = svd(Z) # verify if this works
-        Z = U * SoftThresh(S, lambd) * V.T
-
+        Z = np.matmul(np.matmul(U, SoftThresh(np.diag(S), lambd)), V)
+        
     return Z
