@@ -15,15 +15,14 @@ def SVT(Z, lambd):
     recombining.
     """
 
-    if (Z.shape[0] > Z.shape[1]):
-        ZZ = np.dot(Z.T, Z)
-    else:
-        ZZ = np.dot(Z, Z.T)
+    ZZ = np.dot(Z, Z.T)
 
     if np.max(np.sum(abs(ZZ), 1)) < lambd**2:
         Z = np.dot(Z, 0)
+        #print('if2')
     else:
         U, S, V = svd(Z) # verify if this works
         Z = np.matmul(np.matmul(U, SoftThresh(np.diag(S), lambd)), V)
-        
+        #print('else2')
+
     return Z
