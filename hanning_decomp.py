@@ -3,8 +3,8 @@ import numpy.matlib as npm
 import matplotlib.pyplot as plt
 import cv2
 from blockSVT import blockSVT
-import imagesc as imagesc
 from liveplot import liveplot
+from liveplot import animate
 from matplotlib.colors import Normalize
 from skimage.transform import resize
 
@@ -45,7 +45,7 @@ print(X)
 FOVl = FOV + (levels,)
 
 level_dim = len(FOV)
-plt.imshow(X), plt.show()
+#plt.imshow(X), plt.show()
 
 A = lambda x : np.sum(x, level_dim) # Summation
 
@@ -58,6 +58,9 @@ U_it = np.zeros(FOVl)
 
 for it in range(nIter):
     X_it = 1 / levels * AT(X - A(Z_it - U_it)) + Z_it - U_it
+    liveplot(np.abs(X_it), it)
+    # the bug is in the line above
+    # ergo the discrepenency is in one of the lambda functions: A or AT
     for l in range(levels):
         Z_it[:,:,l] = blockSVT((X_it[:,:,l] + U_it[:,:,l]), block_sizes[l], (lambdas[l] / rho))
 
@@ -66,5 +69,5 @@ for it in range(nIter):
     U_it = U_it - Z_it + X_it
 
 
-liveplot(np.abs(X_it))
+#animate(nIter)
 #print(X_it[:,:,0] == X_it[:,:,1])

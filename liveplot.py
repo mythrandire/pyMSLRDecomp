@@ -1,7 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
+import matplotlib.image as mgimg
+from matplotlib import animation
 
+def animate(iter):
+
+    fig = plt.figure()
+    # initiate an empty  list of "plotted" images
+    myimages = []
 
 def liveplot(X, iter):
     """
