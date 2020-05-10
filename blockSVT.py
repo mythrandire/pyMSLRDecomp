@@ -1,13 +1,33 @@
+"""
+blockSVT
+
+Multi-scale Low Rank Image Decomposition in Python
+
+Author: Dwiref Oza
+
+Functions to simulate behavior of blockproc from MATLAB and to compute
+block-wise Singular Value Threshold (SVT)
+"""
+
+
 import numpy as np
-from sklearn.feature_extraction import image as I
 from skimage.util.shape import view_as_blocks
 from SVT import SVT
 from SoftThresh import SoftThresh
 
+
 def makeblocks(X, block_size):
     """
+
     Naive function to split input square matrix into blocks defined by
     the given block size
+    Inputs:
+        X           :   Input matrix to be divided into blocks
+        block_size  :   Block size
+    Returns:
+        list        :   A list of numpy arrays, each array is a block of shape
+                        defined by input block_size
+
     """
 
     rows, cols = X.shape
@@ -21,6 +41,7 @@ def makeblocks(X, block_size):
 
 def buildback(list, block_size, og_size):
     """
+
     Inverse of function 'makeblocks'.
     Reorganizes processed block-wise data into a matrix of shape equal to
     the original matrix given to 'makeblocks'.
@@ -49,30 +70,27 @@ def buildback(list, block_size, og_size):
 
 def blockSVT(Z, block_size, lambd):
     """
+
     Computes block-wise SVT over blocks of Z, defined by block_size
     Inputs:
         Z           :       Input matrix
         block_size  :       A tuple, square block_size (b, b)
         lambd       :       Lambda - threshold
     Returns:
-        Z           :       Block-wise thresholded
+        Z           :       Block-wise thresholded Z
+
     """
-    #print("block size: ", block_size)
     eps = np.finfo(np.float64).eps # machine epsilon
     doBlockSVT = lambda X: SVT(X, lambd)
+
     if block_size[0] == Z.size:
         t = np.norm(Z.flatten(), 2)
         Z = np.dot(SoftThresh(t, lambd), Z) / (t + eps)
-    else:
 
+    else:
         Z_shape = Z.shape
         data = makeblocks(Z, block_size)
-        #print("block data shape: ", len(data))
-        #print(data[0])
-        #print(data)
         outdata = [doBlockSVT(x) for x in data]
-        #temp = doBlockSVT(data)
-        #print("Size of BSVT output: ", np.size(outdata))
         Z = buildback(outdata, block_size, Z_shape)
 
     return Z

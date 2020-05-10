@@ -1,3 +1,15 @@
+"""
+SVT
+
+Multi-scale Low Rank Image Decomposition in Python
+
+Author: Dwiref Oza
+
+Function to compute the Singular Value Threshold.
+
+"""
+
+
 import numpy as np
 from numpy.linalg import svd
 from SoftThresh import SoftThresh
@@ -19,10 +31,9 @@ def SVT(Z, lambd):
 
     if np.max(np.sum(abs(ZZ), 1)) < lambd**2:
         Z = np.dot(Z, 0)
-        #print('if2')
+
     else:
         U, S, V = svd(Z) # verify if this works
         Z = np.matmul(np.matmul(U, SoftThresh(np.diag(S), lambd)), V)
-        #print('else2')
 
     return Z

@@ -1,13 +1,28 @@
+"""
+pool_decomp
+
+Multi-scale Low Rank Image Decomposition in Python
+
+Author: Dwiref Oza
+
+Python Script to compute the multi-scale low rank decomposition of the input
+image X. Makes use of multiprocessing.Pool to parallelize the block-wise SVT
+computation step of the ADMM solver.
+
+"""
+
+
 import numpy as np
 from multiprocessing import Pool
 import numpy.matlib as npm
 import matplotlib.pyplot as plt
 import cv2
 from blockSVT import blockSVT
-import imagesc as imagesc
 from liveplot import liveplot
 from matplotlib.colors import Normalize
 from skimage.transform import resize
+from randshift import *
+
 
 nIter = 100
 rho = 10
@@ -39,21 +54,22 @@ U_it = np.zeros(FOVl)
 def parSVT(l):
     """
     """
-    X_it_f = np.transpose(X_it, (2, 0, 1))
-    U_it_f = np.transpose(U_it, (2, 0, 1))
-    out = blockSVT((X_it_f[l,:,:] + U_it_f[l,:,:]), block_sizes[l], (lambdas[l] / rho))
+    XU = np.transpose((X_it+U_it), (2, 0, 1))
+    XU_s, r = randshift(XU)
+    out = blockSVT((XU[l,:,:]), block_sizes[l], (lambdas[l] / rho))
+    XU = randunshift(out, r)
     return out
 
 numpools = levels if levels<=10 else 10
 
 for it in range(nIter):
     X_it = 1 / levels * AT(X - A(Z_it - U_it)) + Z_it - U_it
+
     with Pool(processes=numpools) as pool:
         data = pool.map(parSVT, range(levels))
         pool.close()
         pool.terminate()
         pool.join()
-    print('pool output length: ', len(data))
     Z_it = np.reshape(np.asarray(data), (levels, N, N))
     Z_it = np.transpose(Z_it, (1, 2, 0))
     U_it = U_it - Z_it + X_it

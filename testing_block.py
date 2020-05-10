@@ -1,3 +1,15 @@
+"""
+testing_block
+
+Multi-scale Low Rank Image Decomposition in Python
+
+Author: Dwiref Oza
+
+Preliminary testing script to test correct operation of decomposition
+pipeline.
+
+"""
+
 import numpy as np
 import numpy.matlib as npm
 import matplotlib.pyplot as plt
