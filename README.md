@@ -22,6 +22,7 @@ Although this Python code took hours of effort to complete, primary credit belon
 ## Notes
 The completion of this project has been a personal goal for almost a year. I'm glad to have had the chance to do so. 
 
-Links:
-1. Paper: https://arxiv.org/abs/1507.08751
-2. Example code (C and MATLAB): https://github.com/frankong/multi_scale_low_rank
+## Refernces
+These are included as links in the sections above, but listed here for clarity. 
+1. F. Ong, M. Lustig, *"Beyond Low Rank + Sparse: Multi-scale Low Rank Matrix Decomposition"*, [arXiv](https://arxiv.org/abs/1507.08751)
+2. MATLAB (And C implementation) by Frank Ong et. al [github](https://github.com/frankong/multi_scale_low_rank)
