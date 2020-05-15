@@ -18,10 +18,7 @@ Although this Python code took hours of effort to complete, primary credit belon
 ## Project Authors
 [Dwiref Oza](https://github.com/mythrandire)
 
-[Abhishek Bhan](https://github.com/abhi-bhan13)
-
-## Notes
-The completion of this project has been a personal goal for almost a year. I'm glad to have had the chance to do so.
+[Abhishek Bhan](https://github.com/abhi-bhan13
 
 ## References
 These are included as links in the sections above, but listed here for clarity.
