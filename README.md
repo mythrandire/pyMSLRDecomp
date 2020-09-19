@@ -13,7 +13,7 @@ At the time of writing, this code requires the following dependencies. (The code
 
 ## About this Project
 
-Although this Python code took hours of effort to complete, primary credit belongs with the author(s) of the original ```MATLAB``` code. This work was partially motivated by my course project for ***ELEN E6876:** Sparse and Low Rank Models for High Dimensional Data*, at Columbia University in the spring of 2020. The course is taught by Prof. John Wright.
+Although this Python code took hours of effort to complete, primary credit belongs with the author(s) of the original ```MATLAB``` code. This work was motivated by my course project for ***ELEN E6876:** Sparse and Low Rank Models for High Dimensional Data*, at Columbia University in the spring of 2020. The course is taught by Prof. John Wright.
 
 ## Project Authors
 [Dwiref Oza](https://github.com/mythrandire)
